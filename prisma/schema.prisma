@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  isParent  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Profile   Profile?
+}
+
+model Profile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  screenTime   Int      @default(0)
+  dailyGoal    Int      @default(120)
+  xp           Int      @default(0)
+  level        Int      @default(1)
+  lastActivity DateTime @default(now())
+}
+
+model ScreenTimeLog {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime
+  minutes   Int
+  createdAt DateTime @default(now())
+}
+
+model Quest {
+  id          String   @id @default(cuid())
+  description String
+  xpReward    Int
+  createdAt   DateTime @default(now())
+}
+
+model CompletedQuest {
+  id        String   @id @default(cuid())
+  userId    String
+  questId   String
+  completedAt DateTime @default(now())
+}
