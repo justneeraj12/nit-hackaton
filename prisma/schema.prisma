@@ -50,3 +50,6 @@ model CompletedQuest {
   questId   String
   completedAt DateTime @default(now())
 }
+
+
+
