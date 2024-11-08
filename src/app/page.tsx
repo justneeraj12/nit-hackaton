@@ -1,30 +1,36 @@
-import Link from 'next/link'
-import dynamic from 'next/dynamic'
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ParentLogin from './components/ParentLogin';
+import KidLogin from './components/KidLogin';
+import ParentDashboard from './components/ParentDashboard';
+import KidDashboard from './components/KidDashboard';
 
-const AnimatedComponent = dynamic(() => import('../components/AnimatedComponent'), { ssr: false })
-
-export default function Home() {
+function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex flex-col items-center justify-center p-4">
-      <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-8">
-        Welcome to KidScreen
-      </h1>
-      <div className="flex flex-col md:flex-row gap-6">
-        <AnimatedComponent>
-          <Link href="/parent-login">
-            <a className="bg-white text-purple-600 px-8 py-4 rounded-lg shadow-lg hover:bg-purple-100 transition-colors duration-300 text-xl font-semibold">
-              Parent Login
-            </a>
-          </Link>
-        </AnimatedComponent>
-        <AnimatedComponent>
-          <Link href="/kid-login">
-            <a className="bg-white text-blue-500 px-8 py-4 rounded-lg shadow-lg hover:bg-blue-100 transition-colors duration-300 text-xl font-semibold">
-              Kid Login
-            </a>
-          </Link>
-        </AnimatedComponent>
+    <Router>
+      <div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100">
+        <Switch>
+          <Route path="/parent-login" component={ParentLogin} />
+          <Route path="/kid-login" component={KidLogin} />
+          <Route path="/parent-dashboard" component={ParentDashboard} />
+          <Route path="/kid-dashboard" component={KidDashboard} />
+          <Route path="/" exact>
+            <div className="container mx-auto py-12 text-center">
+              <h1 className="text-4xl font-bold text-purple-800 mb-8">Welcome to KidScreen</h1>
+              <div className="space-x-4">
+                <a href="/parent-login" className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                  Parent Login
+                </a>
+                <a href="/kid-login" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                  Kid Login
+                </a>
+              </div>
+            </div>
+          </Route>
+        </Switch>
       </div>
-    </div>
-  )
+    </Router>
+  );
 }
+
+export default App;
